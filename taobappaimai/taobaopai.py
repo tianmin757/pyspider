@@ -10,6 +10,7 @@ from  lxml import etree
 import lxml
 import random
 import json
+from pymongo import MongoClient
 
 class Prepareation:
     def random_agent():
@@ -131,6 +132,19 @@ class Handler(BaseHandler):
             "item notice":itemnotice
             
         }
+    
+    def on_result(self,result):
+        if result:
+            self.mongo_save(result)
+                
+    def mongo_save(self,result):
+        client=MongoClient(host='127.0.0.1',port=27017)
+        db_conn=client['tianmin']
+        db_conn.authenticate('tianmin','111111')
+        db=db_conn.get_collection('taobaopai')
+        cc=db.insert(result)
+        
+    
     
     
 
